@@ -10,14 +10,11 @@ export const mainSlice = createSlice({
   initialState: {
     value: 0,
     pageURL: MENULIST.ProductsList,
+    allProducts: [],
   },
   reducers: {
-    increment: (state) => {
-      // Redux Toolkit allows us to write "mutating" logic in reducers. It
-      // doesn't actually mutate the state because it uses the Immer library,
-      // which detects changes to a "draft state" and produces a brand new
-      // immutable state based off those changes
-      state.value += 1;
+    addAllProducts: (state, action) => {
+      state.allProducts = action.payload;
     },
     updateMenu: (state, action) => {
       state.pageURL = action.payload;
@@ -26,6 +23,6 @@ export const mainSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { increment, updateMenu } = mainSlice.actions;
+export const { addAllProducts, updateMenu } = mainSlice.actions;
 
 export default mainSlice.reducer;
