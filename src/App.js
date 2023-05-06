@@ -1,25 +1,18 @@
-import logo from './logo.svg';
-import './App.css';
+import { useSelector } from 'react-redux';
+import Navbar from './pages/Navbar';
+import AddProduct from './pages/Products/AddProduct';
+import ProductsList from './pages/Products/ProductsList';
+import { MENULIST } from './redux/mainSlice';
 
-function App() {
+const App = () => {
+  const { pageURL } = useSelector((state) => state.ecommercesite);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Navbar />
+
+      {pageURL === MENULIST.ProductsList ? <ProductsList /> : <AddProduct />}
+    </>
   );
-}
+};
 
 export default App;
