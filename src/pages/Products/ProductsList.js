@@ -23,7 +23,6 @@ const ProductsList = () => {
       </Box>
 
       <ProductDetailsCard />
-      <ProductDetailsCard />
     </>
   );
 };

@@ -10,5 +10,21 @@
   ],
   "profile": {
     "name": "typicode"
-  }
+  },
+  "productlist": [
+    {
+      "name": "Red Seat",
+      "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+      "price": 3500,
+      "rating": 3,
+      "imgUrl": "https://media.istockphoto.com/id/509287090/photo/seat.jpg?b=1&s=170667a&w=0&k=20&c=nBTzwKk5mHYPxyrD60GFx2UTLIwYi1AyKaFwzwep2Xg="
+    },
+    {
+      "name": "Blue Seat",
+      "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+      "price": 4000,
+      "rating": 4,
+      "imgUrl": "https://media.istockphoto.com/id/1199428736/photo/turquoise-arm-chair-isolated-on-white-background-front-view-of-upholstered-wingback-accent.jpg?s=612x612&w=0&k=20&c=llAcD0t5fcHgyyPgPoh6S866k2kIQYSjAtLwOwoZ4W8="
+    }
+  ]
 }
