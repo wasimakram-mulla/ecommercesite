@@ -1,5 +1,6 @@
-import { Delete, Edit } from '@mui/icons-material';
+import { Add, Delete, Edit, Remove } from '@mui/icons-material';
 import {
+  Button,
   Card,
   CardContent,
   Grid,
@@ -7,16 +8,28 @@ import {
   Rating,
   Typography,
 } from '@mui/material';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   MENULIST,
+  addToCart,
   deleteProduct,
   editProduct,
+  removeFromCart,
   updateMenu,
 } from '../../redux/mainSlice';
+import { useEffect, useState } from 'react';
 
 const ProductDetailsCard = ({ prod }) => {
   const dispatch = useDispatch();
+  const { cart } = useSelector((state) => state.ecommercesite);
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    const filterCart = cart.filter((x) => x.item.id === prod.id);
+    if (filterCart && filterCart.length > 0) {
+      setCount(filterCart[0].count);
+    }
+  }, []);
 
   const handleDeleteProduct = () => {
     dispatch(deleteProduct(prod));
@@ -25,6 +38,26 @@ const ProductDetailsCard = ({ prod }) => {
   const handleEditProduct = () => {
     dispatch(editProduct(prod));
     dispatch(updateMenu(MENULIST.AddProducts));
+  };
+
+  const handleAddToCartIncrement = () => {
+    setCount((count) => count + 1);
+    dispatch(
+      addToCart({
+        count: count + 1,
+        item: prod,
+      })
+    );
+  };
+
+  const handleAddToCartDecrement = () => {
+    setCount((count) => count - 1);
+    dispatch(
+      removeFromCart({
+        count: count - 1,
+        item: prod,
+      })
+    );
   };
 
   return (
@@ -43,17 +76,50 @@ const ProductDetailsCard = ({ prod }) => {
                 Rs. {prod.price}
               </Typography>
 
-              <Rating name="read-only" value={prod.rating} readOnly sx={{}} />
+              <Rating name="read-only" value={prod.rating} readOnly />
             </Grid>
             <Grid item md={8} sm={6} xs={12}>
               <Typography variant="strong" sx={{ textAlign: 'justify' }}>
                 {prod.description}
               </Typography>
               <br />
+              <Typography variant="div" component="div" sx={{ mt: 3 }}>
+                <Button
+                  size="small"
+                  variant="contained"
+                  sx={{ minWidth: 'auto', p: 1 }}
+                  disabled={count === 0}
+                  onClick={handleAddToCartDecrement}
+                >
+                  <Remove fontSize="15px" htmlColor="white" />
+                </Button>
+                <Button
+                  size="small"
+                  variant="text"
+                  sx={{
+                    minWidth: 'auto',
+                    p: 1,
+                    mx: 1,
+                    cursor: 'default',
+                    fontSize: '1.4rem',
+                    lineHeight: '0',
+                  }}
+                >
+                  {count}
+                </Button>
+                <Button
+                  size="small"
+                  variant="contained"
+                  sx={{ minWidth: 'auto', p: 1 }}
+                  onClick={handleAddToCartIncrement}
+                >
+                  <Add fontSize="15px" htmlColor="white" />
+                </Button>
+              </Typography>
               <Typography
                 variant="div"
                 component="div"
-                sx={{ mt: 3, textAlign: 'right' }}
+                sx={{ mb: 2, textAlign: 'right' }}
               >
                 <IconButton onClick={handleEditProduct}>
                   <Edit htmlColor="orange" />

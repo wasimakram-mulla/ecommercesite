@@ -2,7 +2,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import Navbar from './pages/Navbar';
 import AddProduct from './pages/Products/AddProduct';
 import ProductsList from './pages/Products/ProductsList';
-import { MENULIST, addAllProducts } from './redux/mainSlice';
+import {
+  MENULIST,
+  addAllProducts,
+  resetCartFromStorage,
+} from './redux/mainSlice';
 import { useEffect } from 'react';
 import axios from 'axios';
 
@@ -12,7 +16,12 @@ const App = () => {
 
   useEffect(() => {
     fetchAllApi();
+    fetchCartFromWebStorage();
   }, []);
+
+  const fetchCartFromWebStorage = () => {
+    dispatch(resetCartFromStorage());
+  };
 
   const fetchAllApi = () => {
     axios.get(`${process.env.REACT_APP_DB_PATH}/productlist`).then((res) => {

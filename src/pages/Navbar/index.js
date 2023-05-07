@@ -1,7 +1,8 @@
-import { Adb } from '@mui/icons-material';
+import { Adb, ShoppingCart } from '@mui/icons-material';
 import {
   AppBar,
   Avatar,
+  Badge,
   Box,
   Button,
   Container,
@@ -10,12 +11,17 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import { useDispatch } from 'react-redux';
-import { MENULIST, updateMenu } from '../../redux/mainSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { MENULIST, editProduct, updateMenu } from '../../redux/mainSlice';
 
 const Navbar = () => {
   const dispatch = useDispatch();
+  const { cart } = useSelector((state) => state.ecommercesite);
 
+  const handleMenuClick = (menu) => {
+    dispatch(updateMenu(menu));
+    dispatch(editProduct(null));
+  };
   return (
     <>
       <AppBar position="static">
@@ -43,18 +49,23 @@ const Navbar = () => {
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
               <Button
                 sx={{ my: 2, color: 'white', display: 'block' }}
-                onClick={() => dispatch(updateMenu(MENULIST.ProductsList))}
+                onClick={() => handleMenuClick(MENULIST.ProductsList)}
               >
                 Products
               </Button>
               <Button
                 sx={{ my: 2, color: 'white', display: 'block' }}
-                onClick={() => dispatch(updateMenu(MENULIST.AddProducts))}
+                onClick={() => handleMenuClick(MENULIST.AddProducts)}
               >
                 Add Product
               </Button>
             </Box>
             <Box sx={{ flexGrow: 0 }}>
+              <IconButton sx={{ mr: 3 }}>
+                <Badge badgeContent={cart.length} color="secondary">
+                  <ShoppingCart htmlColor="white" />
+                </Badge>
+              </IconButton>
               <Button variant="text" sx={{ color: 'white' }}>
                 John Doe
               </Button>

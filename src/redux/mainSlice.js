@@ -11,6 +11,7 @@ export const mainSlice = createSlice({
     pageURL: MENULIST.ProductsList,
     allProducts: [],
     isEdit: null,
+    cart: [],
   },
   reducers: {
     addAllProducts: (state, action) => {
@@ -55,9 +56,53 @@ export const mainSlice = createSlice({
         return x;
       });
       state.allProducts = tmpAllProds;
-      console.log(state.allProducts, tmpAllProds);
       state.isEdit = null;
       state.pageURL = MENULIST.ProductsList;
+    },
+    addToCart: (state, action) => {
+      let tmpCart = JSON.parse(JSON.stringify(state.cart));
+      let flag = false;
+      tmpCart = tmpCart.map((x) => {
+        if (x.item.id === action.payload.item.id) {
+          x.count = action.payload.count;
+          flag = true;
+        }
+        return x;
+      });
+      if (flag === false) {
+        tmpCart = [
+          ...tmpCart,
+          {
+            count: action.payload.count,
+            item: action.payload.item,
+          },
+        ];
+      }
+      state.cart = tmpCart;
+      localStorage.setItem('cart', JSON.stringify(state.cart));
+    },
+    removeFromCart: (state, action) => {
+      let tmpCart = JSON.parse(JSON.stringify(state.cart));
+      let index = -1;
+      tmpCart.map((x, inx) => {
+        if (x.item.id === action.payload.item.id) {
+          index = inx;
+        }
+        return x;
+      });
+      if (index !== -1) {
+        if (tmpCart[index].count === 1) {
+          // Remove node from Cart
+          tmpCart.splice(index, 1);
+        } else {
+          tmpCart[index].count -= 1;
+        }
+      }
+      state.cart = tmpCart;
+      localStorage.setItem('cart', JSON.stringify(state.cart));
+    },
+    resetCartFromStorage: (state) => {
+      state.cart = JSON.parse(localStorage.getItem('cart')) || [];
     },
   },
 });
@@ -71,6 +116,9 @@ export const {
   addNewProduct,
   editProduct,
   updateProduct,
+  addToCart,
+  removeFromCart,
+  resetCartFromStorage,
 } = mainSlice.actions;
 
 export default mainSlice.reducer;

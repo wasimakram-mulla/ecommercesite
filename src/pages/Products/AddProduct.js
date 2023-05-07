@@ -25,6 +25,8 @@ const AddProduct = () => {
   useEffect(() => {
     if (isEdit) {
       setFormData(isEdit);
+    } else {
+      setFormData(FormData);
     }
   }, [isEdit]);
 
