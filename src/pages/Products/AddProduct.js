@@ -1,10 +1,16 @@
 import { Button, Card, CardContent, Grid, TextField } from '@mui/material';
 import axios from 'axios';
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { MENULIST, addNewProduct, updateMenu } from '../../redux/mainSlice';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  MENULIST,
+  addNewProduct,
+  updateMenu,
+  updateProduct,
+} from '../../redux/mainSlice';
 
 const FormData = {
+  id: -1,
   name: '',
   description: '',
   price: 0,
@@ -14,6 +20,13 @@ const FormData = {
 const AddProduct = () => {
   const [formData, setFormData] = useState(FormData);
   const dispatch = useDispatch();
+  const { isEdit } = useSelector((state) => state.ecommercesite);
+
+  useEffect(() => {
+    if (isEdit) {
+      setFormData(isEdit);
+    }
+  }, [isEdit]);
 
   const handleFormChange = (e) => {
     if (e.target.name === 'price' || e.target.name === 'rating') {
@@ -24,9 +37,15 @@ const AddProduct = () => {
   };
 
   const submitProduct = () => {
-    dispatch(addNewProduct(formData));
+    const tmpFormData = JSON.parse(JSON.stringify(formData));
+    tmpFormData.id = new Date().getTime();
+    dispatch(addNewProduct(tmpFormData));
     setFormData(FormData);
-    dispatch(updateMenu(MENULIST.ProductsList));
+  };
+
+  const handleUpdateProduct = () => {
+    dispatch(updateProduct(formData));
+    setFormData(FormData);
   };
 
   return (
@@ -96,20 +115,38 @@ const AddProduct = () => {
               />
               <br />
               <br />
-              <Button
-                variant="contained"
-                size="small"
-                disabled={
-                  !formData.name ||
-                  !formData.description ||
-                  !formData.imgUrl ||
-                  formData.rating < 0 ||
-                  formData.rating > 5
-                }
-                onClick={submitProduct}
-              >
-                Add Product
-              </Button>
+              {!isEdit ? (
+                <Button
+                  variant="contained"
+                  size="small"
+                  disabled={
+                    !formData.name ||
+                    !formData.description ||
+                    !formData.imgUrl ||
+                    formData.rating < 0 ||
+                    formData.rating > 5
+                  }
+                  onClick={submitProduct}
+                >
+                  Add Product
+                </Button>
+              ) : (
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  size="small"
+                  disabled={
+                    !formData.name ||
+                    !formData.description ||
+                    !formData.imgUrl ||
+                    formData.rating < 0 ||
+                    formData.rating > 5
+                  }
+                  onClick={handleUpdateProduct}
+                >
+                  Update Product
+                </Button>
+              )}
               <br />
               <br />
             </CardContent>

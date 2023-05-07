@@ -8,9 +8,9 @@ export const MENULIST = {
 export const mainSlice = createSlice({
   name: 'ecommercesite',
   initialState: {
-    value: 0,
     pageURL: MENULIST.ProductsList,
     allProducts: [],
+    isEdit: null,
   },
   reducers: {
     addAllProducts: (state, action) => {
@@ -22,9 +22,15 @@ export const mainSlice = createSlice({
       console.log(tmpAllProds);
       state.allProducts = tmpAllProds;
       tmpAllProds = null;
+      state.pageURL = MENULIST.ProductsList;
     },
     updateMenu: (state, action) => {
       state.pageURL = action.payload;
+    },
+    deleteProduct: (state, action) => {
+      state.allProducts = state.allProducts.filter(
+        (x) => x.id !== action.payload.id
+      );
     },
     sortProductByPrice: (state, action) => {
       if (action.payload === 'asc') {
@@ -37,11 +43,34 @@ export const mainSlice = createSlice({
         });
       }
     },
+    editProduct: (state, action) => {
+      state.isEdit = action.payload;
+    },
+    updateProduct: (state, action) => {
+      let tmpAllProds = JSON.parse(JSON.stringify(state.allProducts)); // DEEP COPY
+      tmpAllProds = tmpAllProds.map((x) => {
+        if (x.id === action.payload.id) {
+          x = action.payload;
+        }
+        return x;
+      });
+      state.allProducts = tmpAllProds;
+      console.log(state.allProducts, tmpAllProds);
+      state.isEdit = null;
+      state.pageURL = MENULIST.ProductsList;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { addAllProducts, updateMenu, sortProductByPrice, addNewProduct } =
-  mainSlice.actions;
+export const {
+  addAllProducts,
+  updateMenu,
+  deleteProduct,
+  sortProductByPrice,
+  addNewProduct,
+  editProduct,
+  updateProduct,
+} = mainSlice.actions;
 
 export default mainSlice.reducer;

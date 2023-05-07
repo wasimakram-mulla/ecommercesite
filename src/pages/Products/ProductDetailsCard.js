@@ -7,8 +7,26 @@ import {
   Rating,
   Typography,
 } from '@mui/material';
+import { useDispatch } from 'react-redux';
+import {
+  MENULIST,
+  deleteProduct,
+  editProduct,
+  updateMenu,
+} from '../../redux/mainSlice';
 
 const ProductDetailsCard = ({ prod }) => {
+  const dispatch = useDispatch();
+
+  const handleDeleteProduct = () => {
+    dispatch(deleteProduct(prod));
+  };
+
+  const handleEditProduct = () => {
+    dispatch(editProduct(prod));
+    dispatch(updateMenu(MENULIST.AddProducts));
+  };
+
   return (
     <>
       <Card sx={{ mb: 2 }}>
@@ -37,10 +55,10 @@ const ProductDetailsCard = ({ prod }) => {
                 component="div"
                 sx={{ mt: 3, textAlign: 'right' }}
               >
-                <IconButton>
+                <IconButton onClick={handleEditProduct}>
                   <Edit htmlColor="orange" />
                 </IconButton>
-                <IconButton sx={{ mr: 3, ml: 1 }}>
+                <IconButton sx={{ mr: 3, ml: 1 }} onClick={handleDeleteProduct}>
                   <Delete htmlColor="red" />
                 </IconButton>
               </Typography>
