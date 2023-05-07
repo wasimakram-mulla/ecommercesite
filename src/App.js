@@ -9,6 +9,7 @@ import {
 } from './redux/mainSlice';
 import { useEffect } from 'react';
 import axios from 'axios';
+import ShowCartComponent from './pages/Cart';
 
 const App = () => {
   const { pageURL } = useSelector((state) => state.ecommercesite);
@@ -34,7 +35,9 @@ const App = () => {
     <>
       <Navbar />
 
-      {pageURL === MENULIST.ProductsList ? <ProductsList /> : <AddProduct />}
+      {pageURL === MENULIST.ProductsList && <ProductsList />}
+      {pageURL === MENULIST.AddProducts && <AddProduct />}
+      {pageURL === MENULIST.ShowCart && <ShowCartComponent />}
     </>
   );
 };

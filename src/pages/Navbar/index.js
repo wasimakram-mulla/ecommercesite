@@ -61,7 +61,10 @@ const Navbar = () => {
               </Button>
             </Box>
             <Box sx={{ flexGrow: 0 }}>
-              <IconButton sx={{ mr: 3 }}>
+              <IconButton
+                sx={{ mr: 3 }}
+                onClick={() => handleMenuClick(MENULIST.ShowCart)}
+              >
                 <Badge badgeContent={cart.length} color="secondary">
                   <ShoppingCart htmlColor="white" />
                 </Badge>

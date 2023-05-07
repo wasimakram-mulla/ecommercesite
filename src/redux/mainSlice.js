@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 export const MENULIST = {
   ProductsList: 'ProductsList',
   AddProducts: 'AddProducts',
+  ShowCart: 'ShowCart',
 };
 
 export const mainSlice = createSlice({
